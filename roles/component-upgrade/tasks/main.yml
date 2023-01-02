@@ -1,0 +1,28 @@
+- name: Start a specific Apigee component on the node
+  shell: '/opt/apigee/apigee-service/bin/apigee-all start'
+
+- name: Update Apigee Utilities
+  become: true
+  shell: '/opt/apigee/apigee-service/bin/apigee-service {{ item }} update'
+  with_items:
+    - apigee-setup
+    - apigee-provision
+    - apigee-validate
+  environment:
+    no_proxy: "{{ no_proxy | default('') }}"
+    http_proxy: "{{ http_proxy | default('') }}"
+    https_proxy: "{{ https_proxy | default('') }}"
+
+- name: Perform component update
+  become: true
+  shell: '/opt/apigee/apigee-setup/bin/update.sh -c {{ item }} -f {{ response_file }}'
+  with_items: '{{ flag }}'
+  environment:
+    no_proxy: "{{ no_proxy | default('') }}"
+    http_proxy: "{{ http_proxy | default('') }}"
+    https_proxy: "{{ https_proxy | default('') }}"
+
+- pause: seconds=30
+
+- name: Check the status of the service
+  shell: '/opt/apigee/apigee-service/bin/apigee-all status'

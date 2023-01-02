@@ -1,0 +1,9 @@
+---
+- name: Apigee Migration Setup
+  hosts: all
+  become: true
+  gather_facts: true
+
+  roles:
+    - { role: ../../roles/bootstrap, tags: ['bootstrap'] }
+    - { role: ../../roles/component-install, tags: ['component'] }

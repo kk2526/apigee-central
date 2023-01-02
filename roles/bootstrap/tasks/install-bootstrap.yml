@@ -1,0 +1,30 @@
+---
+- block:
+  - name: Installing Bootstrap
+    become: yes
+    shell: "bash -x {{ bootstrap_file_path }} apigeeuser={{ apigee_repo_user }} apigeepassword='{{ apigee_repo_password }}' "
+    environment:
+      no_proxy: "{{ no_proxy | default('') }}"
+      http_proxy: "{{ http_proxy | default('') }}"
+      https_proxy: "{{ https_proxy | default('') }}"
+
+  rescue:
+   - name: RESCUE - Disable apigee-thirdparty repo
+     yum_repository:
+      name: "apigee-thirdparty"
+      enabled: false
+
+   - name: RESCUE - Installing bootstrap-2
+     become: yes
+     shell: "bash {{ bootstrap_file_path }} apigeeuser={{ apigee_repo_user }} apigeepassword='{{ apigee_repo_password }}'"
+     environment:
+       no_proxy: "{{ no_proxy | default('') }}"
+       http_proxy: "{{ http_proxy | default('') }}"
+       https_proxy: "{{ https_proxy | default('') }}"
+
+   - name: RESCUE - Re-enable apigee-thirdparty repo
+     yum_repository:
+       name: "apigee-thirdparty"
+       enabled: true
+
+  when: apigee_version is defined 

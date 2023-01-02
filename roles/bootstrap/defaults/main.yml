@@ -1,0 +1,10 @@
+---
+### Bootsrap Details
+apigee_repo_url: 'https://software.apigee.com'
+bootstrap_file_name: 'bootstrap_{{ apigee_version }}.sh'
+bootstrap_file_path: '/tmp/{{ bootstrap_file_name }}'
+
+### Credentials
+apigee_repo_user: 'seiglobal'
+apigee_repo_password: 'SCVDCZqU1xIWhvad'
+

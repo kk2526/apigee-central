@@ -1,0 +1,62 @@
+---
+## To copy remote-to-remote we have to exchange ssh-keys
+## Generate root ssh-keys on old server
+- block:
+  - name: create ~/.ssh/ if not existant
+    file:
+      path: "~/.ssh/"
+      owner: ansible
+      group: ansible
+      mode: 0700
+      state: directory
+
+  - name: Check if ssh key exist
+    stat:
+      path: ~/.ssh/id_rsa
+    register: sshkey
+    ignore_errors: true
+
+  - name: generate SSH key
+    shell: ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa
+    when: not sshkey.stat.exists
+
+  - name: fetch local ssh key from root user
+    shell: cat ~/.ssh/id_rsa.pub
+    register: ssh_keys
+    changed_when: false
+
+  delegate_to: "{{ oel6_server }}"
+
+- name: deploy ssh key to new server
+  authorized_key:
+          user: "root"
+          key: "{{ item }}"
+  with_items:
+          - "{{ ssh_keys.stdout }}"
+
+## Copy new server public key to old server known_hosts
+
+- name: fetch ssh rsa host key from remote server
+  shell: cat /etc/ssh/ssh_host_rsa_key.pub
+  register: ssh_host_rsa_key
+  changed_when: false
+
+- name: add hostkey to root known host file
+  lineinfile:
+      path: "~/.ssh/known_hosts"
+      line: "{{ inventory_hostname }} {{ ssh_host_rsa_key.stdout }}"
+      mode: 0600
+      create: yes
+  delegate_to: "{{ oel6_server }}"
+
+- name: Syncing apigee folders "{{ oel6_server }}" --> "{{ inventory_hostname }}"
+  synchronize:
+    src: /apps/apigee/
+    dest: /apps/apigee/
+  delegate_to: "{{ oel6_server }}"
+
+- name: Syncing auto nas file 
+  synchronize:
+    src: /etc/auto.nas
+    dest: /etc/auto.nas
+  delegate_to: "{{ oel6_server }}"

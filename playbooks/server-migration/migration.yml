@@ -1,0 +1,11 @@
+---
+- name: Apigee Migration
+  hosts: all
+  become: true
+  gather_facts: true
+
+  roles:
+  - role: ../../roles/utils/stop_apigee
+    delegate_to: "{{ oel6_server }}"
+  - role: ../../roles/utils/rsync
+  - role: ../../roles/utils/ipa_uninstall
