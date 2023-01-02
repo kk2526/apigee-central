@@ -1,0 +1,54 @@
+---
+- name: Install apigee package using apigee-service utility
+  shell: "/apps/apigee/apigee-service/bin/apigee-service {{ item }} install"
+  with_items: '{{ apigee_packages }}'
+  environment:
+    no_proxy: "{{ no_proxy | default('') }}"
+    http_proxy: "{{ http_proxy | default('') }}"
+    https_proxy: "{{ https_proxy | default('') }}"
+
+- name: Install apigee-setup using apigee-service utility
+  shell: "/apps/apigee/apigee-service/bin/apigee-service {{ apigee_setup }} install"
+  environment:
+    no_proxy: "{{ no_proxy | default('') }}"
+    http_proxy: "{{ http_proxy | default('') }}"
+    https_proxy: "{{ https_proxy | default('') }}"
+  ignore_errors: true
+
+- block:
+  - name: Enable Root Login on old server
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: 'PermitRootLogin'
+      line: 'PermitRootLogin yes'
+    register: oel6_sshd
+
+  - name: sshd restart      
+    service:                       
+      name: sshd      
+      state: restarted 
+    when: oel6_sshd.changed     
+
+  delegate_to: "{{ oel6_server }}"   
+  become: true                      
+  tags:                             
+    - rootlogin  
+    
+- block:                             
+  - name: Enable Root Login on new server
+    lineinfile:                    
+      path: /etc/ssh/sshd_config   
+      regexp: 'PermitRootLogin'   
+      line: 'PermitRootLogin yes'  
+    register: oel7_sshd
+                                   
+  - name: sshd restart             
+    service:                       
+      name: sshd                   
+      state: restarted 
+    when: oel7_sshd.changed
+                                              
+  become: true                       
+  tags:                              
+    - rootlogin                      
+

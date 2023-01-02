@@ -1,0 +1,52 @@
+all:
+  vars:
+    apigee_version: "4.19.06"
+    apigee_setup: "apigee-setup-4.19.06-0.0.1122"
+    no_proxy: "127.0.0.1,172.16.0.0/12,10.0.0.0/8,192.168.0.0/16,172.16.113.69"
+    http_proxy: "http://squidproxy:80"
+    https_proxy: "http://squidproxy:80"
+  children:
+    cs-zk:
+      hosts:
+        apigeevm[01:03]:
+          apigee_packages:
+            - apigee-cassandra-2.1.16-0.0.2508
+            - apigee-zookeeper-3.4.5-0.0.2003
+            - apigee-cassandra-client-2.1.16-0.0.969
+    openldap:
+      hosts:
+        apigeevm[04:05]:
+          apigee_packages:
+            - apigee-openldap-2.4-0.0.2020
+    edge:
+      hosts:
+        apigeevm[06:07]:
+          apigee_packages:
+            - edge-ui-4.19.06-0.0.20164
+            - edge-gateway-4.19.06-0.0.20097
+            - edge-analytics-4.19.06-0.0.40022
+            - edge-management-server-4.19.06-0.0.20097
+    postgres:
+      hosts:
+        apigeevm[08:09]:
+          apigee_packages:
+            - apigee-postgresql-9.6.1-0.0.2016
+            - edge-postgres-server-4.19.06-0.0.20097
+    message-processor:
+      hosts:
+        apigeevm[10:11]:
+        apigeevm[14:15]:
+          apigee_packages:
+            - edge-message-processor-4.19.06-0.0.20097
+    qpid:
+      hosts:
+        apigeevm[12:13]:
+          apigee_packages:
+            - edge-qpid-server-4.19.06-0.0.20097
+            - apigee-qpidd-4.19.06-0.0.2012
+    routers:
+      hosts:
+        apigeevm[10:11]:
+        apigeevm[14:15]:
+          apigee_packages:
+            - edge-router-4.19.06-0.0.20097

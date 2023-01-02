@@ -1,0 +1,66 @@
+all:
+  vars:
+    apigee_version: "4.51.00"
+    apigee_setup: "apigee-setup-4.19.06-0.0.1122"
+    no_proxy: "127.0.0.1,172.16.0.0/12,10.0.0.0/8,192.168.0.0/16,172.16.113.69,.seic.com"
+    http_proxy: "http://squidproxy:80"
+    https_proxy: "http://squidproxy:80"
+  children:
+    cs-zk:
+      hosts:
+        apigeevm[01:03]:
+          flag:
+            - cs
+            - zk
+          response_file: '/nas/apps/Apigee/dev/response-ms1.txt'
+    openldap:
+      hosts:
+        apigeevm04:
+          flag: ldap
+          response_file: '/nas/apps/Apigee/dev/response-ms1.txt'
+        apigeevm05:
+          flag: ldap
+          response_file: '/nas/apps/Apigee/dev/response-ms2.txt'
+    edge:
+      hosts:
+        apigeevm06:
+          flag:
+            - edge
+            - ui
+          response_file: '/nas/apps/Apigee/dev/response-ms1.txt'
+        apigeevm07:
+          flag:
+            - edge
+            - ui
+          response_file: '/nas/apps/Apigee/dev/response-ms2.txt'
+    postgres:
+      hosts:
+        apigeevm08:
+          flag:
+            - edge
+            - ps
+          response_file: '/nas/apps/Apigee/dev/response-ms1.txt'
+        apigeevm09:
+          flag:
+            - edge
+            - ps
+          response_file: '/nas/apps/Apigee/dev/response-ms2.txt'
+    message-processor:
+      hosts:
+        apigeevm[10:11]:
+          flag:
+            - edge
+          response_file: '/nas/apps/Apigee/dev/response-ms1.txt'
+    qpid:
+      hosts:
+        apigeevm[12:13]:
+          flag:
+            - edge
+            - qpid 
+          response_file: '/nas/apps/Apigee/dev/response-ms1.txt'
+    routers:
+      hosts:
+        apigeevm[14:15]:
+          flag:
+            - edge
+          response_file: '/nas/apps/Apigee/dev/response-ms1.txt'

@@ -1,0 +1,11 @@
+---
+- block:
+  
+  - name: Stoping Apigee
+    shell: /apps/apigee/apigee-service/bin/apigee-all stop
+    ignore_errors: true
+  
+  - name: Making sure all services are stopped
+    shell: /apps/apigee/apigee-service/bin/apigee-all status
+    register: apg_status
+    failed_when: apg_status.rc == 0

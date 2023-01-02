@@ -1,0 +1,10 @@
+---
+- name: Apigee Upgrade
+  serial: 1
+  hosts: all
+  become: true
+  gather_facts: true
+
+  roles:
+  - role: ../../roles/apigee/bootstrap
+  - role: ../../roles/apigee/component_upgrade
