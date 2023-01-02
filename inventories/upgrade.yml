@@ -12,55 +12,55 @@ all:
           flag:
             - cs
             - zk
-          response_file: '/nas/apps/Apigee/dev/response-ms1.txt'
+          response_file: '/nas/apps/apigee/response-ms1.txt'
     openldap:
       hosts:
         apigeevm04:
           flag: ldap
-          response_file: '/nas/apps/Apigee/dev/response-ms1.txt'
+          response_file: '/nas/apps/apigee/response-ms1.txt'
         apigeevm05:
           flag: ldap
-          response_file: '/nas/apps/Apigee/dev/response-ms2.txt'
+          response_file: '/nas/apps/apigee/response-ms2.txt'
     edge:
       hosts:
         apigeevm06:
           flag:
             - edge
             - ui
-          response_file: '/nas/apps/Apigee/dev/response-ms1.txt'
+          response_file: '/nas/apps/apigee/response-ms1.txt'
         apigeevm07:
           flag:
             - edge
             - ui
-          response_file: '/nas/apps/Apigee/dev/response-ms2.txt'
+          response_file: '/nas/apps/apigee/response-ms2.txt'
     postgres:
       hosts:
         apigeevm08:
           flag:
             - edge
             - ps
-          response_file: '/nas/apps/Apigee/dev/response-ms1.txt'
+          response_file: '/nas/apps/apigee/response-ms1.txt'
         apigeevm09:
           flag:
             - edge
             - ps
-          response_file: '/nas/apps/Apigee/dev/response-ms2.txt'
+          response_file: '/nas/apps/apigee/response-ms2.txt'
     message-processor:
       hosts:
         apigeevm[10:11]:
           flag:
             - edge
-          response_file: '/nas/apps/Apigee/dev/response-ms1.txt'
+          response_file: '/nas/apps/apigee/response-ms1.txt'
     qpid:
       hosts:
         apigeevm[12:13]:
           flag:
             - edge
             - qpid 
-          response_file: '/nas/apps/Apigee/dev/response-ms1.txt'
+          response_file: '/nas/apps/apigee/response-ms1.txt'
     routers:
       hosts:
         apigeevm[14:15]:
           flag:
             - edge
-          response_file: '/nas/apps/Apigee/dev/response-ms1.txt'
+          response_file: '/nas/apps/apigee/response-ms1.txt'
