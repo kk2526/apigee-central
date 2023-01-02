@@ -5,11 +5,10 @@ This repo provides various ansible roles for Google Apigee product.
 
 Playbooks
 ------------
-Upgrade/Install:
-    - Playbook to automate apigee componenets install. It can install/upgrade any apigee topology depending on how your inventory file is setup.
-
-Server Migration:
-    - Migrating components off of an old server to a new server, serially. It will uninstall ipa on both servers and reuse the old server ip along with syncing the data. Since in the backend apigee uses ip address (zookeeper) for its configuration this processes will make sure that the migration is seemless. 
+| Role Name | Description |
+| --- | --- |
+| Upgrade/Install |  Install/upgrade any apigee topology depending on how your inventory file is setup.|
+| Server Migration |- Migrating components off of an old server to a new server, serially. <br /> - It will uninstall ipa on both servers and reuse the old server ip along with syncing the data. Since in the backend apigee uses ip address (zookeeper) for its configuration this processes will make sure that the migration is seemless. | 
 
 Requirements
 ------------
@@ -19,6 +18,7 @@ Upgrade/Install:
 
 Server Migration:
     - Root Access to all servers
+    - List of specific packages running on old server
 
 Roles
 ------------
@@ -40,7 +40,6 @@ this role are:
 
 | Variable Name | Description |
 | --- | --- |
-
 | opdk_user_name | System user name. Set to `apigee` |  
 | opdk_group_name | System group name. Set to `apigee` |
 | bootstrap_file_path | Path to the bootstrap script |
