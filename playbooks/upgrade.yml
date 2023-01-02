@@ -7,4 +7,4 @@
 
   roles:
   - role: ../../roles/apigee/bootstrap
-  - role: ../../roles/apigee/component_upgrade
+  - role: ../../roles/apigee/component-upgrade

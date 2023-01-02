@@ -1,5 +1,5 @@
 ---
-- name: Install apigee package using apigee-service utility
+- name: Install apigee SPECIFIC package using apigee-service utility
   shell: "/apps/apigee/apigee-service/bin/apigee-service {{ item }} install"
   with_items: '{{ apigee_packages }}'
   environment:
@@ -29,7 +29,7 @@
       state: restarted 
     when: oel6_sshd.changed     
 
-  delegate_to: "{{ oel6_server }}"   
+  delegate_to: "{{ old_server }}"   
   become: true                      
   tags:                             
     - rootlogin  

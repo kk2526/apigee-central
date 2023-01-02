@@ -25,7 +25,7 @@
     register: ssh_keys
     changed_when: false
 
-  delegate_to: "{{ oel6_server }}"
+  delegate_to: "{{ old_server }}"
 
 - name: deploy ssh key to new server
   authorized_key:
@@ -47,16 +47,16 @@
       line: "{{ inventory_hostname }} {{ ssh_host_rsa_key.stdout }}"
       mode: 0600
       create: yes
-  delegate_to: "{{ oel6_server }}"
+  delegate_to: "{{ old_server }}"
 
-- name: Syncing apigee folders "{{ oel6_server }}" --> "{{ inventory_hostname }}"
+- name: Syncing apigee folders "{{ old_server }}" --> "{{ inventory_hostname }}"
   synchronize:
     src: /apps/apigee/
     dest: /apps/apigee/
-  delegate_to: "{{ oel6_server }}"
+  delegate_to: "{{ old_server }}"
 
 - name: Syncing auto nas file 
   synchronize:
     src: /etc/auto.nas
     dest: /etc/auto.nas
-  delegate_to: "{{ oel6_server }}"
+  delegate_to: "{{ old_server }}"

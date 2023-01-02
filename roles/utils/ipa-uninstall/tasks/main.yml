@@ -2,23 +2,23 @@
 - name: ipa uninstall {{ inventory_hostname }}
   shell: 'echo no | ipa-client-install --uninstall'
 
-- name: ipa uninstall {{ oel6_server }}
+- name: ipa uninstall {{ old_server }}
   shell: 'echo no | ipa-client-install --uninstall'
-  delegate_to: "{{ oel6_server }}"
+  delegate_to: "{{ old_server }}"
 
-- name: get ip address of {{ oel6_server }}
+- name: get ip address of {{ old_server }}
   set_fact: 
-    oel6_server_ip: "{{lookup('dig', '{{ oel6_server }}./A')}}"
+    old_server_ip: "{{lookup('dig', '{{ old_server }}./A')}}"
 
 - name: set ip address on {{ inventory_hostname }}
   lineinfile:
     path: /etc/sysconfig/network-scripts/ifcfg-ens192
     regexp: '^IPADDR='
-    line: 'IPADDR={{ oel6_server_ip }}'
+    line: 'IPADDR={{ old_server_ip }}'
 
 - name: pausing
   pause:
-    prompt: Please bring down interface down on {{ oel6_server }}
+    prompt: Please bring down interface down on {{ old_server }}
 
 - name: Reboot server if swap removed
   shell: "sleep 7 && reboot &"
