@@ -5,6 +5,6 @@ bootstrap_file_name: 'bootstrap_{{ apigee_version }}.sh'
 bootstrap_file_path: '/tmp/{{ bootstrap_file_name }}'
 
 ### Credentials
-apigee_repo_user: 'seiglobal'
-apigee_repo_password: 'SCVDCZqU1xIWhvad'
+apigee_repo_user: 'myusername'
+apigee_repo_password: 'secretpassword'
 
